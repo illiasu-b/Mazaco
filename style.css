@@ -1,0 +1,143 @@
+/* ================= GLOBAL ================= */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f4f4f4;
+  color: black;
+  overflow-x: hidden; /* prevent page horizontal scroll */
+}
+
+/* Logo at the top center */
+.logo-container {
+  display: flex;
+  justify-content: center; /* center horizontally */
+  align-items: center;     /* center vertically if needed */
+  margin: 20px 0;          /* spacing above and below */
+}
+
+.logo-container img {
+  max-width: 300px;  /* responsive width */
+  width: 80%;        /* scales down on smaller screens */
+  height: auto;      /* maintain aspect ratio */
+}
+
+
+h1, h2 {
+  color: lightblue;
+  margin-bottom: 15px;
+}
+
+/* ================= DASHBOARD CONTENT ================= */
+#dashboardContent {
+  display: none;
+  margin-bottom: 20px;
+}
+
+/* ================= FORM ================= */
+form#productForm {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+form#productForm input {
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+form#productForm button {
+  grid-column: 1 / -1;
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: lightblue;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+form#productForm button:hover {
+  background-color: lightblue;
+}
+
+/* ================= TABLE ================= */
+.table-wrapper {
+  overflow-x: auto; /* only table scrolls */
+  width: 100%;
+  margin-bottom: 20px;
+  -webkit-overflow-scrolling: touch; /* smooth on mobile */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 700px; /* table scrolls if smaller screen */
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+table th, table td {
+  padding: 12px 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  word-wrap: break-word;
+}
+
+table th {
+  background-color: gray;
+  color: #fff;
+  font-weight: bold;
+}
+
+table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* ================= DASHBOARD CARDS ================= */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  font-weight: bold;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 10px) {
+  form#productForm {
+    grid-template-columns: 1fr; /* stack inputs */
+  }
+  table th, table td {
+    padding: 8px 10px;
+  }
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+  table {
+    min-width: 100%; /* table fits mobile container */
+  }
+}

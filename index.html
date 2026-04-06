@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAZACO Dashboard</title>
+
+<!-- CSP for Firebase -->
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self' 'unsafe-inline' https://www.gstatic.com https://www.googleapis.com;
+  connect-src 'self'
+    https://*.googleapis.com
+    https://securetoken.googleapis.com
+    https://identitytoolkit.googleapis.com
+    https://firestore.googleapis.com
+    https://*.firebaseio.com;
+  img-src 'self' data: https:;
+  style-src 'self' 'unsafe-inline';
+">
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+  <div class="logo-container">
+  <img src="ChatGPT Image Mar 9, 2026, 11_04_59 AM.png" alt="MAZACO ENTERPRISE Logo">
+</div>
+
+
+<!-- Dashboard content (hidden by default) -->
+<button id="openProductForm" style="color: lightblue">➕ Add Product</button>
+
+<div id="dashboardContent" style="display:none;">
+  <h2>Add Product</h2>
+
+  <form id="productForm">
+    <input type="text" id="name" placeholder="Product Name" required />
+    
+    <input type="text" id="business" placeholder="Business Name" required />
+    
+    <input type="text" id="category" placeholder="Category" required />
+    
+    <input type="number" id="costPrice" placeholder="Cost Price" required />
+    
+    <input type="number" id="price" placeholder="Selling Price" required />
+    
+    <input type="number" id="stock" placeholder="Stock Quantity" required />
+    
+    <input type="number" id="lowStockLimit" placeholder="Low Stock Limit" required />
+    
+    <button type="submit">Add Product</button>
+  </form>
+</div>
+  <h2>All Products</h2>
+<div class="table-wrapper">
+  <table>
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Business</th>
+        <th>Category</th>
+        <th>Stock</th>
+        <th>Cost Price</th>
+        <th>Selling Price</th>
+        <th>Low Stock Limit</th>
+        <th>Total Stock Value</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="productTable"></tbody>
+  </table>
+</div>
+<section class="sales">
+  <h2>Sales Overview</h2>
+
+  <div class="stats-grid">
+    <div class="card">💰 Today Sales: <span id="todaySales">0</span></div>
+    <div class="card">📅 Weekly Sales: <span id="weeklySales">0</span></div>
+    <div class="card">📆 Monthly Sales: <span id="monthlySales">0</span></div>
+    <div class="card">📈 Profit: <span id="totalProfit">0</span></div>
+  </div>
+
+  <h2>Inventory Overview</h2>
+
+  <div class="stats-grid">
+    <div class="card">📦 Total Stock: <span id="totalStock">0</span></div>
+    <div class="card">🔥 Best Seller: <span id="bestSeller">None</span></div>
+    <div class="card">⚠️ Low Stock: <span id="lowStock">0</span></div>
+  </div>
+</section>
+
+<script type="module">
+  import { auth } from "./firebase.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-auth.js";
+
+  const dashboardContent = document.getElementById("dashboardContent");
+
+  document.addEventListener("DOMContentLoaded", () => {
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        // Not logged in → go to login page
+        window.location.href = "login.html";
+      } else {
+        // Logged in → show dashboard
+        if (dashboardContent) {
+          dashboardContent.style.display = "block";
+        }
+      }
+    });
+
+  });
+</script>
+<script>const openBtn = document.getElementById("openProductForm");
+const formSection = document.getElementById("dashboardContent");
+
+openBtn.addEventListener("click", () => {
+  if (formSection.style.display === "none") {
+    formSection.style.display = "block";
+  } else {
+    formSection.style.display = "none";
+  }
+});</script>
+
+<!-- Load your product scripts after user is authenticated -->
+<script type="module" src="./product.js"></script>
+<script type="module" src="./dashboard.js"></script>
+
+</body>
+</html>
