@@ -76,9 +76,10 @@ export async function loadProducts() {
           <td>${lowStockLimit}</td>
           <td>${stock * price}</td>
           <td>
-            <button onclick="sellProduct('${docSnap.id}', '${data.name}', ${price}, ${costPrice}, ${stock})">Sell</button>
-            <button onclick="deleteProduct('${docSnap.id}', '${data.name}')">Delete</button>
-          </td>
+  <button onclick="sellProduct('${docSnap.id}', '${data.name}', ${price}, ${costPrice}, ${stock})">Sell</button>
+  <button onclick="editProduct('${docSnap.id}')">Edit</button> <!-- ✅ NEW -->
+  <button onclick="deleteProduct('${docSnap.id}', '${data.name}')">Delete</button>
+</td>
         </tr>
       `;
     });
@@ -144,6 +145,50 @@ window.deleteProduct = async function (id, name) {
 
   } catch (error) {
     console.error("Error deleting:", error);
+  }
+};
+
+window.editProduct = async function (id) {
+  try {
+    const snapshot = await getDocs(collection(db, "products"));
+    const productDoc = snapshot.docs.find(doc => doc.id === id);
+
+    if (!productDoc) return alert("Product not found");
+
+    const data = productDoc.data();
+
+    // Prompt user for new values
+    const name = prompt("Edit name:", data.name);
+    const business = prompt("Edit business:", data.business);
+    const category = prompt("Edit category:", data.category);
+    const costPrice = Number(prompt("Edit cost price:", data.costPrice));
+    const price = Number(prompt("Edit selling price:", data.price));
+    const stock = Number(prompt("Edit stock:", data.stock));
+    const lowStockLimit = Number(prompt("Edit low stock limit:", data.lowStockLimit));
+
+    // Prevent empty updates
+    if (!name || !business || !category) {
+      return alert("Fields cannot be empty");
+    }
+
+    // Update Firestore
+    await updateDoc(doc(db, "products", id), {
+      name,
+      business,
+      category,
+      costPrice,
+      price,
+      stock,
+      lowStockLimit
+    });
+
+    alert("Product updated successfully!");
+
+    loadProducts();
+    if (typeof loadDashboard === "function") loadDashboard();
+
+  } catch (error) {
+    console.error("Error updating product:", error);
   }
 };
 
