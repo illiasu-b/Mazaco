@@ -3,20 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login</title>
+<title>Login — MAZACO</title>
+
+<!-- PWA -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#add8e6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="MAZACO">
+<link rel="apple-touch-icon" href="/icons/icon-192.png">
+
 <style>
-  body { font-family: Arial; display: flex; justify-content: center; align-items: center; height: 100vh; }
+  body { font-family: Arial; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f4f4f4; }
   .login-container { background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2); text-align: center; width: 300px; }
-  input { width: 100%; padding: 10px; margin: 8px 0; border-radius: 5px; border: 1px solid #ccc; }
-  button { width: 100%; padding: 10px; margin-top: 10px; border-radius: 5px; border: none; background: #2e7d32; color: #fff; cursor: pointer; }
-  button:hover { background: #1b5e20; }
-  #errorMessage { color: red; min-height: 18px; margin-top: 10px; }
+  input { width: 100%; padding: 10px; margin: 8px 0; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box; }
+  button { width: 100%; padding: 10px; margin-top: 10px; border-radius: 5px; border: none; background: #add8e6; color: #fff; cursor: pointer; font-weight: bold; }
+  button:hover { background: #87ceeb; }
+  #errorMessage { color: red; min-height: 18px; margin-top: 10px; font-size: 0.85rem; }
 </style>
 </head>
 <body>
 
 <div class="login-container">
-  <h2>Login</h2>
+  <h2 style="color:#add8e6;">MAZACO</h2>
   <form id="loginForm">
     <input type="email" id="email" placeholder="Email" required>
     <input type="password" id="password" placeholder="Password" required>
@@ -26,5 +35,17 @@
 </div>
 
 <script type="module" src="login.js"></script>
+
+<!-- PWA Service Worker -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('[PWA] Registered ✅'))
+        .catch(err => console.error('[PWA] Failed:', err));
+    });
+  }
+</script>
+
 </body>
 </html>
